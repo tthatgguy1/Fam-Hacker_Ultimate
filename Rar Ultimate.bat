@@ -51,7 +51,7 @@
                 SET "DEST_PATH_NAME=%%~nxA"
                 )
     SET "PASSWORD_SET=ON"
-        SET "PASSWORD=CHANGE_THIS_PASSWORD"
+        SET "PASSWORD=Red2027Daddy**"
         SET "PASSWORD_SWITCH="
         IF /I "%PASSWORD_SET%"=="ON" (
             IF "%PASSWORD%"=="CHANGE_THIS_PASSWORD" (
@@ -65,7 +65,7 @@
             SET "PASSWORD_SWITCH=-hp%PASSWORD%"
         )
     SET "JPG_MERGE_SET=ON"
-        SET "JPG_FILE=C:\Users\sethj\OneDrive\Imports\Archives\JPG Setup Center\Zeltik Plays.jpg"
+        SET "JPG_FILE="
             FOR %%A IN ("%JPG_FILE%") DO (
                     SET "JPG_FILE_NAME_ONLY=%%~nxA"
                 )
