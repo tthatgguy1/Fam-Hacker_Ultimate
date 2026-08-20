@@ -51,7 +51,7 @@
                 SET "DEST_PATH_NAME=%%~nxA"
                 )
     SET "PASSWORD_SET=ON"
-        SET "PASSWORD=Red2027Daddy**"
+        SET "PASSWORD=CHANGE_THIS_PASSWORD"
         SET "PASSWORD_SWITCH="
         IF /I "%PASSWORD_SET%"=="ON" (
             IF "%PASSWORD%"=="CHANGE_THIS_PASSWORD" (
