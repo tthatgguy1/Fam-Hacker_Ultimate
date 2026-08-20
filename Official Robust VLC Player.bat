@@ -1,159 +1,169 @@
-        :FAM-HACKER_CLIENT
-         @ECHO OFF
-         SETLOCAL DisableDelayedExpansion
-         REM                       ███████╗╔█████╗─███╗───███╗─██╗──██╗╔█████╗─╔██████╗██╗──██╗██████╗─
-         REM                       ██╔════╝██╔══██╗████╗─████║─██║──██║██╔══██╗██╔════╝██║─██╔╝██╔══██╗─
-         REM                       █████╗──███████║██╔████╔██║─███████║███████║██║─────█████╔╝─██████╔╝─
-         REM                       ██╔══╝──██╔══██║██║╚██╔╝██║─██╔══██║██╔══██║██║─────██╔═██╗─██╔══██╗─
-         REM                       ██║─────██║──██║██║─╚═╝─██║─██║──██║██║──██║╚██████╗██║──██╗██║──██║─
-         REM                       ╚═╝─────╚═╝──╚═╝╚═╝─────╚═╝─╚═╝──╚═╝╚═╝──╚═╝─╚═════╝╚═╝──╚═╝╚═╝──╚═╝─
-         REM                                ╔██████╗██╗─────██╗███████╗███╗───██╗████████╗─
-         REM                                ██╔════╝██║─────██║██╔════╝████╗──██║╚══██╔══╝─
-         REM                                ██║─────██║─────██║█████╗──██╔██╗─██║───██║─
-         REM                                ██║─────██║─────██║██╔══╝──██║╚██╗██║───██║─
-         REM                                ╚██████╗███████╗██║███████╗██║─╚████║───██║─
-         REM                                 ╚═════╝╚══════╝╚═╝╚══════╝╚═╝──╚═══╝───╚═╝─
-         REM                     ----------------------------Nah-Fam_Studios----------------------------
-        SET "FAM_HACKER_INTRO=OFF"
-            IF /I "%FAM_HACKER_INTRO%"=="ON" (
-                CALL "%~dp0Call Files\Fam-Hacker_Client_Intro.bat"
-            )
-        SET "CUSTOM_PROMPT=ON"
-            IF /I "%CUSTOM_PROMPT%"=="ON" (
-                prompt %COLOR_FBLK_BRIGHTYELLOW%{%COLOR_RESET%%COLOR_DARKMATTERMINER%Fam%COLOR_RESET%%COLOR_FBLK_BRIGHTYELLOW%-%COLOR_RESET%%COLOR_DARK_GREEN%Hacker%COLOR_RESET%%COLOR_FBLK_BRIGHTYELLOW%}%COLOR_RESET%%COLOR_FBLK_BRIGHTCYAN%$G%COLOR_RESET%%COLOR_FBLK_BRIGHTPURPLE%$G%COLOR_RESET%
-            )
-        SET "GREETINGS=ON"
-            IF /I "%GREETINGS%"=="ON" (           
-                DATE /T
-                TIME /T
-                COLOR 0B
-                ECHO Welcome to the advance file selection, Written by Seth J. Nelson
-                TIMEOUT /T 1 >nul
-            )
-        :COMMANDS    
-            ::--fullscreen
-            ::--no-xlib
-            ::--no-keyboard-events
-            ::--video-wallpaper
-            ::--disable-screensaver
-            ::--no-video-title-show
-            ::--video-title-timeout
-            ::--aspect-ratio
-            ::--no-autoscale
-            ::--no-hdtv-fix
-            ::--video-title
-            ::--no-sub-autodetect-file
-            ::--start-time
-            ::--stop-time
-            ::--run-time
-            ::--bookmarks
-            ::--meta-title
-            ::--meta-author
-            ::--meta-artist
-            ::--meta-genre
-            ::--meta-date
-            ::--meta-url
-            ::--input-title-format
-            ::--no-lua
-            ::--high-priority
-            ::--random
-            ::--loop
-            ::--repeat
-            ::--play-and-exit
-            ::--play-and-stop
-            ::--play-and-pause
-            ::--start-paused
-            ::--no-playlist-autostart
-            ::--no-playlist-cork
-            ::--no-one-instance
-            ::--one-instance
-            ::--started-from-file
-            ::--one-instance-when-started-from-file
-            ::--playlist-enqueue
-            ::--no-media-library
-            ::--playlist-tree
-            ::--no-auto-preparse
-            ::--no-metadata-network-access
-            ::--color
-            ::--advanced
-            ::--stereo-mode=6  
-            ::--key-toggle-fullscreen
-            ::--global-key-play-pause
-            ::--key-faster
-            ::--key-slower
-            ::--key-rate-normal
-            ::--key-rate-faster-fine
-            ::--key-rate-slower-fine
-            ::--key-next
-            ::--key-prev
-            ::--key-stop
-            ::--key-nav-up
-            ::--key-nav-down
-            ::--key-nav-left
-            ::--key-nav-right
-            ::--key-title-prev
-            ::--key-title-next
-            ::--key-chapter-prev
-            ::--key-quit
-            ::--key-vol-up
-            ::--key-vol-down
-            ::--key-vol-mute
-            ::--key-subtitle-toggle
-            ::--key-random
-            ::--key-loop
-            ::--key-set-bookmark01
-            ::--key-set-bookmark02
-            ::--key-set-bookmark03
-            ::--key-set-bookmark04
-            ::--key-set-bookmark05
-            ::--key-set-bookmark06
-            ::--key-set-bookmark07
-            ::--key-set-bookmark08
-            ::--key-set-bookmark09
-            ::--key-set-bookmark10
-            ::--key-play-bookmark01
-            ::--key-play-bookmark02
-            ::--key-play-bookmark03
-            ::--key-play-bookmark04
-            ::--key-play-bookmark05
-            ::--key-play-bookmark06
-            ::--key-play-bookmark07
-            ::--key-play-bookmark08
-            ::--key-play-bookmark09
-            ::--key-play-bookmark10
-            ::--bookmark01
-            ::--bookmark02
-            ::--bookmark03
-            ::--bookmark04
-            ::--bookmark05
-            ::--bookmark06
-            ::--bookmark07
-            ::--bookmark08
-            ::--bookmark09
-            ::--bookmark10
-        :VLC_RUN
-            SET "VIDEO_SOURCE=X:\Media_Vault\TV Shows\Young Sheldon\Young Sheldon (2017) Season 5 S05 (1080p BluRay x265 HEVC 10bit AAC 5.1 Vyndros)"
-            SET "VIDEO_SOURCE_2="
-            SET "VIDEO_SOURCE_3="
-            SET "VIDEO_SOURCE_4="
-            REM "%VIDEO_SOURCE_2%" ^
-            REM "%VIDEO_SOURCE_3%" ^
-            REM "%VIDEO_SOURCE_4%"
 
-            VLC ^
-             --start-time=0 ^
-             --no-random ^
-             --one-instance ^
-             --playlist-enqueue ^
-             --no-fullscreen ^
-             --sub-track=0 ^
-             --video-title-show ^
-             --autoscale ^
-             --playlist-tree ^
-             --auto-preparse ^
-             --play-and-exit ^
-            "%VIDEO_SOURCE%"
-            GOTO :END
+
+SET "CUSTOM_PROMPT=ON"
+    IF /I "%CUSTOM_PROMPT%"=="ON" (
+        prompt %COLOR_FBLK_BRIGHTYELLOW%{%COLOR_RESET%%COLOR_DARKMATTERMINER%Fam%COLOR_RESET%%COLOR_FBLK_BRIGHTYELLOW%-%COLOR_RESET%%COLOR_DARK_GREEN%Hacker%COLOR_RESET%%COLOR_FBLK_BRIGHTYELLOW%}%COLOR_RESET%%COLOR_FBLK_BRIGHTCYAN%$G%COLOR_RESET%%COLOR_FBLK_BRIGHTPURPLE%$G%COLOR_RESET%
+    )
+
+:FAM-HACKER_CLIENT
+    @ECHO OFF
+    SETLOCAL DisableDelayedExpansion
+    REM                       ███████╗╔█████╗─███╗───███╗─██╗──██╗╔█████╗─╔██████╗██╗──██╗██████╗─
+    REM                       ██╔════╝██╔══██╗████╗─████║─██║──██║██╔══██╗██╔════╝██║─██╔╝██╔══██╗─
+    REM                       █████╗──███████║██╔████╔██║─███████║███████║██║─────█████╔╝─██████╔╝─
+    REM                       ██╔══╝──██╔══██║██║╚██╔╝██║─██╔══██║██╔══██║██║─────██╔═██╗─██╔══██╗─
+    REM                       ██║─────██║──██║██║─╚═╝─██║─██║──██║██║──██║╚██████╗██║──██╗██║──██║─
+    REM                       ╚═╝─────╚═╝──╚═╝╚═╝─────╚═╝─╚═╝──╚═╝╚═╝──╚═╝─╚═════╝╚═╝──╚═╝╚═╝──╚═╝─
+    REM                                ╔██████╗██╗─────██╗███████╗███╗───██╗████████╗─
+    REM                                ██╔════╝██║─────██║██╔════╝████╗──██║╚══██╔══╝─
+    REM                                ██║─────██║─────██║█████╗──██╔██╗─██║───██║─
+    REM                                ██║─────██║─────██║██╔══╝──██║╚██╗██║───██║─
+    REM                                ╚██████╗███████╗██║███████╗██║─╚████║───██║─
+    REM                                 ╚═════╝╚══════╝╚═╝╚══════╝╚═╝──╚═══╝───╚═╝─
+    REM                     ----------------------------Nah-Fam_Studios----------------------------
+
+SET "FAM_HACKER_INTRO=OFF"
+    IF /I "%FAM_HACKER_INTRO%"=="ON" (
+        CALL "%~dp0Call Files\Fam-Hacker_Client_Intro.bat"
+    )
+    
+:GREETING_SET
+SET "GREETINGS=ON"
+    IF /I "%GREETINGS%"=="ON" (           
+        DATE /T
+        TIME /T
+        COLOR 0B
+        ECHO Welcome to the Fam-Hacker Client VLC File Player.
+        TIMEOUT /T 1 >nul
+    )
+
+:COMMANDS    
+        REM --fullscreen
+        REM --no-xlib
+        REM --no-keyboard-events
+        REM --video-wallpaper
+        REM --disable-screensaver
+        REM --no-video-title-show
+        REM --video-title-timeout
+        REM --aspect-ratio
+        REM --no-autoscale
+        REM --no-hdtv-fix
+        REM --video-title
+        REM --no-sub-autodetect-file
+        REM --start-time
+        REM --stop-time
+        REM --run-time
+        REM --bookmarks
+        REM --meta-title
+        REM --meta-author
+        REM --meta-artist
+        REM --meta-genre
+        REM --meta-date
+        REM --meta-url
+        REM --input-title-format
+        REM --no-lua
+        REM --high-priority
+        REM --random
+        REM --loop
+        REM --repeat
+        REM --play-and-exit
+        REM --play-and-stop
+        REM --play-and-pause
+        REM --start-paused
+        REM --no-playlist-autostart
+        REM --no-playlist-cork
+        REM --no-one-instance
+        REM --one-instance
+        REM --started-from-file
+        REM --one-instance-when-started-from-file
+        REM --playlist-enqueue
+        REM --no-media-library
+        REM --playlist-tree
+        REM --no-auto-preparse
+        REM --no-metadata-network-access
+        REM --color
+        REM --advanced
+        REM --stereo-mode=6  
+        REM --key-toggle-fullscreen
+        REM --global-key-play-pause
+        REM --key-faster
+        REM --key-slower
+        REM --key-rate-normal
+        REM --key-rate-faster-fine
+        REM --key-rate-slower-fine
+        REM --key-next
+        REM --key-prev
+        REM --key-stop
+        REM --key-nav-up
+        REM --key-nav-down
+        REM --key-nav-left
+        REM --key-nav-right
+        REM --key-title-prev
+        REM --key-title-next
+        REM --key-chapter-prev
+        REM --key-quit
+        REM --key-vol-up
+        REM --key-vol-down
+        REM --key-vol-mute
+        REM --key-subtitle-toggle
+        REM --key-random
+        REM --key-loop
+        REM --key-set-bookmark01
+        REM --key-set-bookmark02
+        REM --key-set-bookmark03
+        REM --key-set-bookmark04
+        REM --key-set-bookmark05
+        REM --key-set-bookmark06
+        REM --key-set-bookmark07
+        REM --key-set-bookmark08
+        REM --key-set-bookmark09
+        REM --key-set-bookmark10
+        REM --key-play-bookmark01
+        REM --key-play-bookmark02
+        REM --key-play-bookmark03
+        REM --key-play-bookmark04
+        REM --key-play-bookmark05
+        REM --key-play-bookmark06
+        REM --key-play-bookmark07
+        REM --key-play-bookmark08
+        REM --key-play-bookmark09
+        REM --key-play-bookmark10
+        REM --bookmark01
+        REM --bookmark02
+        REM --bookmark03
+        REM --bookmark04
+        REM --bookmark05
+        REM --bookmark06
+        REM --bookmark07
+        REM --bookmark08
+        REM --bookmark09
+        REM --bookmark10
+
+:VLC_RUN
+    SET "VIDEO_SOURCE_1=X:\Media_Vault\TV Shows\The Big Bang Theory\The Big Bang Theory - Season 05"
+    SET "VIDEO_SOURCE_2="
+    SET "VIDEO_SOURCE_3="
+    SET "VIDEO_SOURCE_4="
+    SET "VIDEO_SOURCE_5="
+    REM "%VIDEO_SOURCE_2%" ^
+    REM "%VIDEO_SOURCE_3%" ^
+    REM "%VIDEO_SOURCE_4%" ^
+    REM "%VIDEO_SOURCE_5%"
+
+        VLC ^
+         --start-time=0 ^
+         --no-random ^
+         --one-instance ^
+         --playlist-enqueue ^
+         --no-fullscreen ^
+         --sub-track=0 ^
+         --video-title-show ^
+         --autoscale ^
+         --playlist-tree ^
+         --auto-preparse ^
+         --play-and-exit ^
+        "%VIDEO_SOURCE_1%" ^
+        GOTO :END
 :PEND
     ECHO OFF
     ECHO                                                   %COLOR_BRIGHTYELLOW%i%COLOR_RESET%                                                                                           

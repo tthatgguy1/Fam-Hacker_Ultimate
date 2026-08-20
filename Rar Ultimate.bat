@@ -24,25 +24,25 @@
             SHIFT
         )
     SET "COLOR_CALL=ON"
-            IF /I "%COLOR_CALL%"=="ON" (
-                CALL "%~dp0Call Files\Safe Color Set - Missing Only.bat"
-            )
+        IF /I "%COLOR_CALL%"=="ON" (
+            CALL "%~dp0Call Files\Safe Color Set - Missing Only.bat"
+        )
     SET "FAM_HACKER_INTRO=ON"
-            IF /I "%FAM_HACKER_INTRO%"=="ON" (
-                CALL "%~dp0Call Files\Fam-Hacker_Client_Intro.bat"
-            )
-            CLS
+        IF /I "%FAM_HACKER_INTRO%"=="ON" (
+            CALL "%~dp0Call Files\Fam-Hacker_Client_Intro.bat"
+        )
+        CLS
     SET "SIGNATURE=Seth J. Nelson"
     SET "SIGNATURE2=Nah-Fam_Studios 2026"
-    SET "RAR_PATH=X:\Media_Vault\YouTube\Zeltik\Zeltik Plays"
+    SET "RAR_PATH="
         FOR %%A IN ("%RAR_PATH%") DO (
             SET "RAR_PATH_NAME=%%~nxA"
             )
-    SET "DEST_FOLDER=C:\Users\sethj\OneDrive\Imports\Archives\The .jpg Vault\YouTube\Zeltik\Zeltik Plays"
+    SET "DEST_FOLDER="
         FOR %%A IN ("%DEST_FOLDER%") DO (
                 SET "DEST_FOLDER_NAME=%%~nxA"
                 )
-    SET "ARCHIVE_NAME=Ocarina of Time, - {Narrative Walkthrough Incomplete Archive}"
+    SET "ARCHIVE_NAME="
         IF NOT EXIST "%DEST_FOLDER%\" (
             MKDIR "%DEST_FOLDER%"
         )
@@ -51,7 +51,7 @@
                 SET "DEST_PATH_NAME=%%~nxA"
                 )
     SET "PASSWORD_SET=ON"
-        SET "PASSWORD=Red2027Daddy**"
+        SET "PASSWORD=CHANGE_THIS_PASSWORD"
         SET "PASSWORD_SWITCH="
         IF /I "%PASSWORD_SET%"=="ON" (
             IF "%PASSWORD%"=="CHANGE_THIS_PASSWORD" (
@@ -65,7 +65,7 @@
             SET "PASSWORD_SWITCH=-hp%PASSWORD%"
         )
     SET "JPG_MERGE_SET=ON"
-        SET "JPG_FILE=C:\Users\sethj\OneDrive\Imports\Archives\JPG Setup Center\Zeltik_Plays.jpg"
+        SET "JPG_FILE=C:\Users\sethj\OneDrive\Imports\Archives\JPG Setup Center\Zeltik Plays.jpg"
             FOR %%A IN ("%JPG_FILE%") DO (
                     SET "JPG_FILE_NAME_ONLY=%%~nxA"
                 )
@@ -74,6 +74,11 @@
                     SET "JPG_NAME_ONLY=%%~nxA"
                 )
         SET "DELETE_NEWRAR=ON"
+        SET "DELETE_SOURCE_JPG=ON"
+    SET "MERGE_ONLY=OFF"
+        IF /I "%MERGE_ONLY%"=="ON" (
+            GOTO :MERGE
+        )
     SET "LOG_FILE=ON"
         SET "ADD_LOG_TO_ARCHIVE=ON"
             IF /I "%ADD_LOG_TO_ARCHIVE%"=="ON" (
@@ -166,7 +171,6 @@
          ECHO Recurse SUBD: %RECURSE_SUBD%
          ECHO Password Set: %PASSWORD_SET%
          ECHO JPG Merge: %JPG_MERGE_SET%
-         ECHO New RAR Delete: %DELETE_NEWRAR% - %DEST_PATH_NAME%
          ECHO Compression: %COMPRESSION%
          ECHO Re-Compression: %RE_COMPRESSION%
          ECHO Volume Set: %VOLUME_SET% - %VOLUME_AMOUNT%
@@ -175,6 +179,7 @@
          ECHO Original Files Wiped: %WIPE_FILES%
          ECHO Source Folder Deleted: %DEL_FOLDER%
          ECHO Clear Archive Attr: %CLEAR_ARCHIVE_ATTRIBUTES%
+         ECHO New RAR Delete: %DELETE_NEWRAR% - %DEST_PATH_NAME%
          ECHO Original JPG File: %JPG_FILE_NAME_ONLY%
          ECHO Merge JPG Output: %JPG_NAME_ONLY%
          ECHO.
@@ -190,82 +195,83 @@
             ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
             GOTO :RAR_FINISH
          )
-    :FAILSAFES
-        WHERE rar >nul 2>&1
-            IF ERRORLEVEL 1 (
+
+:FAILSAFES
+    WHERE rar >nul 2>&1
+        IF ERRORLEVEL 1 (
+            ECHO.
+            ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%RAR%COLOR_RESET% %COLOR_IRONMINER%was not found in the Windows PATH%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
+            ECHO.
+            GOTO :RAR_FINISH
+        )
+        IF NOT EXIST "%RAR_PATH%\" (
+            ECHO.
+            ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER_BLINK%Source folder%COLOR_RESET% %COLOR_IRONMINER%was not found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
+            ECHO %COLOR_SLB_GREEN%"%RAR_PATH_NAME%"%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
+            ECHO.
+            GOTO :RAR_FINISH
+        )
+        IF NOT EXIST "%DEST_FOLDER%\" (
+            ECHO.
+            ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER_BLINK%Destination folder%COLOR_RESET% %COLOR_IRONMINER%was not found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
+            ECHO %COLOR_SLB_GREEN%"%DEST_FOLDER_NAME%"%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
+            ECHO.
+            GOTO :RAR_FINISH
+        )
+        IF NOT EXIST "%COMMENT_FOLDER%\" (
+            ECHO.
+            ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%Comment folder%COLOR_RESET% %COLOR_IRONMINER%was not found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
+            ECHO %COLOR_SLB_GREEN%"%COMMENT_FOLDER_NAME_ONLY%"%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
+            ECHO.
+            GOTO :RAR_FINISH
+        )
+        IF /I "%ADD_LOG_TO_ARCHIVE%"=="ON" (
+            IF /I "%VOLUME_SET%"=="ON" (
                 ECHO.
                 ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%RAR%COLOR_RESET% %COLOR_IRONMINER%was not found in the Windows PATH%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+                ECHO %COLOR_GOLDMINER%Log embedding%COLOR_RESET% %COLOR_IRONMINER%cannot be used with %COLOR_GOLDMINER%split volumes%COLOR_RESET%%COLOR_IRONMINER%.%COLOR_RESET%
+                ECHO %COLOR_IRONMINER%Set %COLOR_GOLDMINER%VOLUME_SET=OFF%COLOR_RESET% %COLOR_IRONMINER%or%COLOR_RESET% %COLOR_GOLDMINER%LOG_FILE=OFF%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
                 ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
                 ECHO.
                 GOTO :RAR_FINISH
             )
-            IF NOT EXIST "%RAR_PATH%\" (
+        )
+        IF /I "%JPG_MERGE_SET%"=="ON" (
+            IF /I "%VOLUME_SET%"=="ON" (
                 ECHO.
                 ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER_BLINK%Source folder%COLOR_RESET% %COLOR_IRONMINER%was not found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
-                ECHO %COLOR_SLB_GREEN%"%RAR_PATH_NAME%"%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                ECHO.
-                GOTO :RAR_FINISH
-            )
-            IF NOT EXIST "%DEST_FOLDER%\" (
-                ECHO.
-                ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER_BLINK%Destination folder%COLOR_RESET% %COLOR_IRONMINER%was not found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
-                ECHO %COLOR_SLB_GREEN%"%DEST_FOLDER_NAME%"%COLOR_RESET%
+                ECHO %COLOR_GOLDMINER%JPG Merg%COLOR_RESET% %COLOR_IRONMINER%cannot be used with%COLOR_RESET% %COLOR_GOLDMINER%split volumes%COLOR_RESET%%COLOR_IRONMINER%.%COLOR_RESET%
+                ECHO %COLOR_IRONMINER%Set %COLOR_GOLDMINER%VOLUME_SET=OFF%COLOR_RESET% %COLOR_IRONMINER%or%COLOR_RESET% %COLOR_GOLDMINER%JPG_MERGE_SET=OFF%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
                 ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
                 ECHO.
                 GOTO :RAR_FINISH
             )
-            IF NOT EXIST "%COMMENT_FOLDER%\" (
+            IF NOT EXIST "%JPG_FILE%" (
                 ECHO.
                 ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%Comment folder%COLOR_RESET% %COLOR_IRONMINER%was not found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
-                ECHO %COLOR_SLB_GREEN%"%COMMENT_FOLDER_NAME_ONLY%"%COLOR_RESET%
+                ECHO %COLOR_GOLDMINER%JPG%COLOR_RESET% %COLOR_IRONMINER%file was not found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
+                ECHO %COLOR_SLB_GREEN%"%JPG_NAME_ONLY%"%COLOR_RESET%
                 ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
                 ECHO.
                 GOTO :RAR_FINISH
             )
-            IF /I "%ADD_LOG_TO_ARCHIVE%"=="ON" (
-                IF /I "%VOLUME_SET%"=="ON" (
-                    ECHO.
-                    ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%Log embedding%COLOR_RESET% %COLOR_IRONMINER%cannot be used with %COLOR_GOLDMINER%split volumes%COLOR_RESET%%COLOR_IRONMINER%.%COLOR_RESET%
-                    ECHO %COLOR_IRONMINER%Set %COLOR_GOLDMINER%VOLUME_SET=OFF%COLOR_RESET% %COLOR_IRONMINER%or%COLOR_RESET% %COLOR_GOLDMINER%LOG_FILE=OFF%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                    ECHO.
-                    GOTO :RAR_FINISH
-                )
+            IF /I "%JPG_FILE%"=="%OUTPUT_JPG%" (
+                ECHO.
+                ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
+                ECHO %COLOR_GOLDMINER%JPG_FILE%COLOR_RESET% %COLOR_IRONMINER%and%COLOR_RESET% %COLOR_GOLDMINER%OUTPUT_JPG%COLOR_RESET% %COLOR_IRONMINER%cannot be identical%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+                ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
+                ECHO.
+            GOTO :RAR_FINISH
             )
-            IF /I "%JPG_MERGE_SET%"=="ON" (
-                IF /I "%VOLUME_SET%"=="ON" (
-                    ECHO.
-                    ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%JPG Merg%COLOR_RESET% %COLOR_IRONMINER%cannot be used with%COLOR_RESET% %COLOR_GOLDMINER%split volumes%COLOR_RESET%%COLOR_IRONMINER%.%COLOR_RESET%
-                    ECHO %COLOR_IRONMINER%Set %COLOR_GOLDMINER%VOLUME_SET=OFF%COLOR_RESET% %COLOR_IRONMINER%or%COLOR_RESET% %COLOR_GOLDMINER%JPG_MERGE_SET=OFF%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                    ECHO.
-                    GOTO :RAR_FINISH
-                )
-                IF NOT EXIST "%JPG_FILE%" (
-                    ECHO.
-                    ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%JPG%COLOR_RESET% %COLOR_IRONMINER%file was not found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
-                    ECHO %COLOR_SLB_GREEN%"%JPG_NAME_ONLY%"%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                    ECHO.
-                    GOTO :RAR_FINISH
-                )
-                IF /I "%JPG_FILE%"=="%OUTPUT_JPG%" (
-                    ECHO.
-                    ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%JPG_FILE%COLOR_RESET% %COLOR_IRONMINER%and%COLOR_RESET% %COLOR_GOLDMINER%OUTPUT_JPG%COLOR_RESET% %COLOR_IRONMINER%cannot be identical%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%===================================================%COLOR_RESET%
-                    ECHO.
-                GOTO :RAR_FINISH
-                )
-            )
+        )
         CD /D "%RAR_PATH%"
             IF ERRORLEVEL 1 (
                 ECHO.
@@ -277,133 +283,157 @@
                 DEL /Q "%COMMENT_FILE%" >nul 2>&1
                 GOTO :RAR_FINISH
             )
-    :RAR_START
-     CLS
-     ECHO.
-     ECHO %COLOR_GOLDMINER%===========================================%COLOR_RESET%
-     ECHO %COLOR_GOLDMINER%RAR%COLOR_RESET% %COLOR_IRONMINER%will now add the selected files to the archive%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
-     ECHO %COLOR_SLB_GREEN%"%RAR_PATH_NAME%"%COLOR_RESET%
-     ECHO %COLOR_GOLDMINER%With the following archive settings.%COLOR_RESET%
-     ECHO %COLOR_GOLDMINER%===========================================%COLOR_RESET%
-         (
-         ECHO Add Files: %ADD_FILES%
-         ECHO Exclude Paths From Names: %EXC_PATHS_FROM_NAMES%
-         ECHO Recurse SUBD: %RECURSE_SUBD%
-         ECHO Password Set: %PASSWORD_SET%
-         ECHO JPG Merge: %JPG_MERGE_SET%
-         ECHO New RAR Delete: %DELETE_NEWRAR% - %DEST_PATH_NAME%
-         ECHO Compression: %COMPRESSION%
-         ECHO Re-Compression: %RE_COMPRESSION%
-         ECHO Volume Set: %VOLUME_SET% - %VOLUME_AMOUNT%
-         ECHO Dictionary Set: %DICTIONARY_SET% - %DICTIONARY_AMOUNT%
-         ECHO File Test: %TEST_FILES%
-         ECHO Original Files Wiped: %WIPE_FILES%
-         ECHO Source Folder Deleted: %DEL_FOLDER%
-         ECHO Clear Archive Attr: %CLEAR_ARCHIVE_ATTRIBUTES%
-         ECHO Original JPG File: %JPG_FILE_NAME_ONLY%
-         ECHO Merge JPG Output: %JPG_NAME_ONLY%
-         ) | lolcat
-     ECHO %COLOR_GOLDMINER%============================================%COLOR_RESET%
-     ECHO.
+:RAR_START
+    CLS
+    ECHO.
+    ECHO %COLOR_GOLDMINER%===========================================%COLOR_RESET%
+    ECHO %COLOR_GOLDMINER%RAR%COLOR_RESET% %COLOR_IRONMINER%will now add the selected files to the archive%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+    ECHO %COLOR_SLB_GREEN%"%RAR_PATH_NAME%"%COLOR_RESET%
+    ECHO %COLOR_GOLDMINER%With the following archive settings.%COLOR_RESET%
+    ECHO %COLOR_GOLDMINER%===========================================%COLOR_RESET%
+        (
+        ECHO Add Files: %ADD_FILES%
+        ECHO Exclude Paths From Names: %EXC_PATHS_FROM_NAMES%
+        ECHO Recurse SUBD: %RECURSE_SUBD%
+        ECHO Password Set: %PASSWORD_SET%
+        ECHO JPG Merge: %JPG_MERGE_SET%
+        ECHO Compression: %COMPRESSION%
+        ECHO Re-Compression: %RE_COMPRESSION%
+        ECHO Volume Set: %VOLUME_SET% - %VOLUME_AMOUNT%
+        ECHO Dictionary Set: %DICTIONARY_SET% - %DICTIONARY_AMOUNT%
+        ECHO File Test: %TEST_FILES%
+        ECHO Original Files Wiped: %WIPE_FILES%
+        ECHO Source Folder Deleted: %DEL_FOLDER%
+        ECHO Clear Archive Attr: %CLEAR_ARCHIVE_ATTRIBUTES%
+        ECHO New RAR Delete: %DELETE_NEWRAR% - %DEST_PATH_NAME%
+        ECHO Original JPG File: %JPG_FILE_NAME_ONLY%
+        ECHO Merge JPG Output: %JPG_NAME_ONLY%
+        ) | lolcat --seed 75
+        ECHO %COLOR_GOLDMINER%============================================%COLOR_RESET%
+        ECHO.
         PING localhost -n %PING_SECONDS% >nul
-            rar ^
-            %ADD_FILES_SWITCH% ^
-            %RECURSE_SUBD_SWITCH% ^
-            %CLEAR_ATTRIBUTES_SWITCH% ^
-            %TEST_SWITCH% ^
-            %WIPE_SWITCH% ^
-            %DICTIONARY_SET_SWITCH% ^
-            %VOLUME_SET_SWITCH% ^
-            %COMPRESSION% ^
-            %PASSWORD_SWITCH% ^
-            %LOG_FILE_SWITCH% ^
-            %COMMENTS_SWITCH%"%COMMENT_FILE%" ^
-            "%DEST_PATH%" ^
-            *.* | lolcat
-            SET "RAR_EXIT_CODE=%ERRORLEVEL%"
-            DEL /Q "%COMMENT_FILE%" >nul 2>&1
-                IF NOT "%RAR_EXIT_CODE%"=="0" (
-                    ECHO.
-                    ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%RAR%COLOR_RESET% %COLOR_RED%failed%COLOR_RESET% %COLOR_IRONMINER%with exit code%COLOR_RESET% %COLOR_DARK_GREEN%%RAR_EXIT_CODE%%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%JPG Merge%COLOR_RESET% %COLOR_IRONMINER%and%COLOR_RESET% %COLOR_GOLDMINER%Folder Deletion%COLOR_RESET% %COLOR_IRONMINER%have been cancelled%COLOR_GOLDMINER%.%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-                    GOTO :RAR_FINISH
-                )
-    :RARLOG
-            IF /I "%ADD_LOG_TO_ARCHIVE%"=="ON" (
-                IF NOT EXIST "%RAR_LOG%" (
-                    ECHO.
-                    ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-                    ECHO %COLOR_IRONMINER%WinRAR%COLOR_RESET% %COLOR_GOLDMINER%log file%COLOR_RESET% %COLOR_IRONMINER%was not found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
-                    ECHO %COLOR_SLB_GREEN%"%RAR_LOG_NAME_ONLY%"%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-                    ECHO.
-                    GOTO :RAR_FINISH
-                )
+    rar ^
+        %ADD_FILES_SWITCH% ^
+        %RECURSE_SUBD_SWITCH% ^
+        %CLEAR_ATTRIBUTES_SWITCH% ^
+        %TEST_SWITCH% ^
+        %WIPE_SWITCH% ^
+        %DICTIONARY_SET_SWITCH% ^
+        %VOLUME_SET_SWITCH% ^
+        %COMPRESSION% ^
+        %PASSWORD_SWITCH% ^
+        %LOG_FILE_SWITCH% ^
+        %COMMENTS_SWITCH%"%COMMENT_FILE%" ^
+        "%DEST_PATH%" ^
+        *.* | lolcat
+        SET "RAR_EXIT_CODE=%ERRORLEVEL%"
+        DEL /Q "%COMMENT_FILE%" >nul 2>&1
+            IF NOT "%RAR_EXIT_CODE%"=="0" (
                 ECHO.
                 ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-                ECHO %COLOR_IRONMINER%Adding the%COLOR_RESET% %COLOR_GOLDMINER%WinRAR log%COLOR_RESET% %COLOR_IRONMINER%to the archive%COLOR_RESET%%COLOR_GOLDMINER%....%COLOR_RESET%
-                ECHO %COLOR_SLB_GREEN%"%RAR_LOG_NAME_ONLY%"%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-                ECHO.
-                PING localhost -n %PING_SECONDS% >nul
-                    rar ^
-                    %ADD_FILES_SWITCH% ^
-                    %TEST_SWITCH% ^
-                    %RE_COMPRESSION% ^
-                    %PASSWORD_SWITCH% ^
-                    %EXC_PATHS_SWITCH% ^
-                    %LOG_FILE_FOLDER_SWITCH% ^
-                    "%DEST_PATH%" ^
-                    "%RAR_LOG%" | lolcat
-                        IF ERRORLEVEL 1 (
-                            ECHO.
-                            ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-                            ECHO %COLOR_BRIGHTRED%Failed%COLOR_RESET% %COLOR_IRONMINER%to add the%COLOR_RESET% %COLOR_GOLDMINER%WinRAR log%COLOR_RESET% %COLOR_IRONMINER%to the archive%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
-                            ECHO %COLOR_GOLDMINER%JPG Merg%COLOR_RESET% %COLOR_IRONMINER%and%COLOR_RESET% %COLOR_GOLDMINER%Folder Deletion%COLOR_RESET% %COLOR_IRONMINER%have been cancelled%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
-                            ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-                            ECHO.
-                            GOTO :RAR_FINISH
-                        )   
-                    )
-                    PING localhost -n %PING_SECONDS% >nul
-                    ECHO.
-                    ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-                    ECHO %COLOR_IRONMINER%Archive created %COLOR_GOLDMINER%successfully%COLOR_IRONMINER%:%COLOR_RESET%
-                    ECHO %COLOR_SLB_GREEN%"%DEST_PATH_NAME%"%COLOR_RESET%
-                    ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-                    ECHO.
-    :MERGE
-            IF /I "%JPG_MERGE_SET%"=="ON" (
-            IF NOT EXIST "%DEST_PATH%" (
-                ECHO.
-                ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-                ECHO %COLOR_IRONMINER%The completed%COLOR_RESET% %COLOR_GOLDMINER%RAR%COLOR_RESET% %COLOR_IRONMINER%archive was not found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
-                ECHO %COLOR_SLB_GREEN%"%DEST_PATH_NAME%"%COLOR_RESET%
-                ECHO %COLOR_IRONMINER%Folder deletion has been cancelled%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+                ECHO %COLOR_GOLDMINER%RAR%COLOR_RESET% %COLOR_RED%failed%COLOR_RESET% %COLOR_IRONMINER%with exit code%COLOR_RESET% %COLOR_DARK_GREEN%%RAR_EXIT_CODE%%COLOR_RESET%
+                ECHO %COLOR_GOLDMINER%JPG Merge%COLOR_RESET% %COLOR_IRONMINER%and%COLOR_RESET% %COLOR_GOLDMINER%Folder Deletion%COLOR_RESET% %COLOR_IRONMINER%have been cancelled%COLOR_GOLDMINER%.%COLOR_RESET%
                 ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
                 GOTO :RAR_FINISH
             )
+:RARLOG
+    IF /I "%ADD_LOG_TO_ARCHIVE%"=="ON" (
+        IF NOT EXIST "%RAR_LOG%" (
+            ECHO.
             ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-            ECHO %COLOR_IRONMINER%Combining the%COLOR_RESET% %COLOR_GOLDMINER%JPG%COLOR_RESET% %COLOR_IRONMINER%and%COLOR_RESET% %COLOR_GOLDMINER%RAR%COLOR_RESET% %COLOR_IRONMINER%archive%COLOR_GOLDMINER%...%COLOR_RESET%
-            ECHO %COLOR_SLB_BLUE%%DEST_PATH_NAME%%COLOR_RESET%
-            ECHO %COLOR_SLB_PURPLE%%JPG_FILE_NAME_ONLY%%COLOR_RESET%
+            ECHO %COLOR_IRONMINER%WinRAR%COLOR_RESET% %COLOR_GOLDMINER%log file%COLOR_RESET% %COLOR_IRONMINER%was not found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
+            ECHO %COLOR_SLB_GREEN%"%RAR_LOG_NAME_ONLY%"%COLOR_RESET%
             ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
-                COPY ^
-                    /B ^
-                    /Y ^
-                    "%JPG_FILE%"+"%DEST_PATH%" ^
-                    "%OUTPUT_JPG%" >NUL
-                        IF ERRORLEVEL 1 (
-                        ECHO.
-                        ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
-                        ECHO %COLOR_GOLDMINER%Failed%COLOR_RESET% %COLOR_IRONMINER%to combine the%COLOR_RESET% %COLOR_GOLDMINER%JPG%COLOR_RESET% %COLOR_IRONMINER%and%COLOR_RESET% %COLOR_GOLDMINER%RAR%COLOR_RESET% %COLOR_IRONMINER%archive%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
-                        ECHO %COLOR_GOLDMINER%Folder Deletion%COLOR_RESET% %COLOR_IRONMINER%has been cancelled%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
-                        ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
-                        ECHO.
-                        GOTO :RAR_FINISH
-                    )
+            ECHO.
+            GOTO :RAR_FINISH
+        )
+        ECHO.
+        ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
+        ECHO %COLOR_IRONMINER%Adding the%COLOR_RESET% %COLOR_GOLDMINER%WinRAR log%COLOR_RESET% %COLOR_IRONMINER%to the archive%COLOR_RESET%%COLOR_GOLDMINER%....%COLOR_RESET%
+        ECHO %COLOR_SLB_GREEN%"%RAR_LOG_NAME_ONLY%"%COLOR_RESET%
+        ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
+        ECHO.
+        PING localhost -n %PING_SECONDS% >nul
+    rar ^
+        %ADD_FILES_SWITCH% ^
+        %TEST_SWITCH% ^
+        %RE_COMPRESSION% ^
+        %PASSWORD_SWITCH% ^
+        %EXC_PATHS_SWITCH% ^
+        %LOG_FILE_FOLDER_SWITCH% ^
+        "%DEST_PATH%" ^
+        "%RAR_LOG%" | lolcat
+            IF ERRORLEVEL 1 (
+                ECHO.
+                ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
+                ECHO %COLOR_BRIGHTRED%Failed%COLOR_RESET% %COLOR_IRONMINER%to add the%COLOR_RESET% %COLOR_GOLDMINER%WinRAR log%COLOR_RESET% %COLOR_IRONMINER%to the archive%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+                ECHO %COLOR_GOLDMINER%JPG Merg%COLOR_RESET% %COLOR_IRONMINER%and%COLOR_RESET% %COLOR_GOLDMINER%Folder Deletion%COLOR_RESET% %COLOR_IRONMINER%have been cancelled%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+                ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
+                ECHO.
+                GOTO :RAR_FINISH
+            )   
+    )
+    PING localhost -n %PING_SECONDS% >nul
+    ECHO.
+    ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
+    ECHO %COLOR_IRONMINER%Archive created %COLOR_GOLDMINER%successfully%COLOR_IRONMINER%:%COLOR_RESET%
+    ECHO %COLOR_SLB_GREEN%"%DEST_PATH_NAME%"%COLOR_RESET%
+    ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
+    ECHO.
+:MERGE
+    IF /I "%MERGE_ONLY%"=="ON" (
+        IF /I NOT "%JPG_MERGE_SET%"=="ON" (
+            ECHO.
+            ECHO JPG_MERGE_SET must be set to ON to use Merge Only.
+            ECHO.
+            GOTO :RAR_FINISH
+        )
+    )
+    IF /I "%MERGE_ONLY%"=="ON" (
+        IF NOT EXIST "%DEST_PATH%" (
+            ECHO.
+            ECHO The archive was not found in the destination folder.
+            ECHO.
+            GOTO :RAR_FINISH
+        )
+    )
+    IF /I "%MERGE_ONLY%"=="ON" (
+        IF NOT EXIST "%JPG_FILE%" (
+            ECHO.
+            ECHO The JPG file was not found.
+            ECHO.
+            GOTO :RAR_FINISH
+        )
+    )
+    IF /I "%JPG_MERGE_SET%"=="ON" (
+        IF NOT EXIST "%DEST_PATH%" (
+            ECHO.
+            ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
+            ECHO %COLOR_IRONMINER%The completed%COLOR_RESET% %COLOR_GOLDMINER%RAR%COLOR_RESET% %COLOR_IRONMINER%archive was not found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
+            ECHO %COLOR_SLB_GREEN%"%DEST_PATH_NAME%"%COLOR_RESET%
+            ECHO %COLOR_IRONMINER%Folder deletion has been cancelled%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
+            GOTO :RAR_FINISH
+        )
+        ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
+        ECHO %COLOR_IRONMINER%Combining the%COLOR_RESET% %COLOR_GOLDMINER%JPG%COLOR_RESET% %COLOR_IRONMINER%and%COLOR_RESET% %COLOR_GOLDMINER%RAR%COLOR_RESET% %COLOR_IRONMINER%archive%COLOR_GOLDMINER%...%COLOR_RESET%
+        ECHO %COLOR_SLB_BLUE%%DEST_PATH_NAME%%COLOR_RESET%
+        ECHO %COLOR_SLB_PURPLE%%JPG_FILE_NAME_ONLY%%COLOR_RESET%
+        ECHO %COLOR_GOLDMINER%=======================================================%COLOR_RESET%
+    COPY ^
+        /B ^
+        /Y ^
+        "%JPG_FILE%"+"%DEST_PATH%" ^
+        "%OUTPUT_JPG%" >NUL
+            IF ERRORLEVEL 1 (
+                ECHO.
+                ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+                ECHO %COLOR_GOLDMINER%Failed%COLOR_RESET% %COLOR_IRONMINER%to combine the%COLOR_RESET% %COLOR_GOLDMINER%JPG%COLOR_RESET% %COLOR_IRONMINER%and%COLOR_RESET% %COLOR_GOLDMINER%RAR%COLOR_RESET% %COLOR_IRONMINER%archive%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+                ECHO %COLOR_GOLDMINER%Folder Deletion%COLOR_RESET% %COLOR_IRONMINER%has been cancelled%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+                ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+                ECHO.
+                GOTO :RAR_FINISH
+            )
             PING localhost -n %PING_SECONDS% >nul
             ECHO.
             ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
@@ -411,10 +441,9 @@
             ECHO %COLOR_SLB_GREEN%"%JPG_NAME_ONLY%"%COLOR_RESET%
             ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
             ECHO.
-            IF /I "%DELETE_NEWRAR%"=="ON" (
+                IF /I "%DELETE_NEWRAR%"=="ON" (
                     DEL /Q "%DEST_PATH%" >nul 2>&1
-                    DEL /Q "%JPG_FILE%" >nul 2>&1
-                    IF EXIST "%DEST_PATH%" (
+                        IF EXIST "%DEST_PATH%" (
                             ECHO.
                             ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
                             ECHO %COLOR_IRONMINER%The %COLOR_GOLDMINER%Original RAR%COLOR_RESET% %COLOR_IRONMINER%archive could not be deleted%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
@@ -423,54 +452,66 @@
                             ECHO.
                             GOTO :RAR_FINISH
                         )
-                    )
+                )
+                IF /I "%DELETE_SOURCE_JPG%"=="ON" (
+                    DEL /Q "%JPG_FILE%" >nul 2>&1
+                        IF EXIST "%JPG_FILE%" (
+                            ECHO.
+                            ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+                            ECHO %COLOR_IRONMINER%The %COLOR_GOLDMINER%Original JPG%COLOR_RESET% %COLOR_IRONMINER%file could not be deleted%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+                            ECHO %COLOR_SLB_GREEN%"%JPG_FILE_NAME_ONLY%"%COLOR_RESET%
+                            ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+                            ECHO.
+                            GOTO :RAR_FINISH
+                        )
+                )
             )
-                TIMEOUT /T 3 /NOBREAK >nul
-                IF /I "%DEL_FOLDER%"=="ON" GOTO :DEL_FOLDER_TRUE
-                GOTO :RAR_FINISH
-    :DEL_FOLDER_TRUE
-      CD /D "%DEST_FOLDER%"
-            IF ERRORLEVEL 1 (
-                ECHO.
-                ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
-                ECHO %COLOR_IRONMINER%Unable to leave the %COLOR_GOLDMINER%Source Folder%COLOR_RESET%%COLOR_IRONMINER%.%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%Folder Deletion%COLOR_RESET% %COLOR_IRONMINER%has been cancelled%COLOR_GOLDMINER%.%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
-                GOTO :RAR_FINISH
-            )
-            IF /I "%RAR_PATH%"=="%DEST_FOLDER%" (
-                ECHO.
-                ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%Source%COLOR_RESET% %COLOR_IRONMINER%and%COLOR_RESET% %COLOR_GOLDMINER%Destination Folders%COLOR_RESET% %COLOR_IRONMINER%cannot be identical%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%Folder Deletion%COLOR_RESET% %COLOR_IRONMINER%has been cancelled%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
-                ECHO.
-                GOTO :RAR_FINISH
-            )
-            IF NOT EXIST "%RAR_PATH%\" (
-                ECHO.
-                ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
-                ECHO %COLOR_IRONMINER%Source folder%COLOR_RESET% %COLOR_GOLDMINER%was already%COLOR_RESET% %COLOR_GOLDMINER%removed or could not be found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
-                ECHO %COLOR_SLB_GREEN%"%RAR_PATH_NAME%"%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
-                GOTO :RAR_FINISH
-            )
-        RMDIR /S /Q "%RAR_PATH%"
-            IF EXIST "%RAR_PATH%\" (
-                ECHO.
-                ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%NFS%COLOR_RESET% %COLOR_IRONMINER%was%COLOR_RESET% %COLOR_BRIGHTWHITE%unable%COLOR_RESET% %COLOR_IRONMINER%to delete the selected directory%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
-                ECHO %COLOR_DARK_GREEN%"%RAR_PATH_NAME%"%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
-                ECHO.
-            ) ELSE (
-                ECHO.
-                ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
-                ECHO %COLOR_IRONMINER%The %COLOR_GOLDMINER%selected directory%COLOR_RESET% %COLOR_IRONMINER%was deleted%COLOR_RESET% %COLOR_BRIGHTGREEN%successfully%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
-                ECHO %COLOR_DARK_GREEN%"%RAR_PATH_NAME%"%COLOR_RESET%
-                ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
-                ECHO.
-            )
-    :RAR_FINISH
-        ENDLOCAL
+    TIMEOUT /T 3 /NOBREAK >nul
+        IF /I "%DEL_FOLDER%"=="ON" GOTO :DEL_FOLDER_TRUE
+            GOTO :RAR_FINISH
+:DEL_FOLDER_TRUE
+    CD /D "%DEST_FOLDER%"
+        IF ERRORLEVEL 1 (
+            ECHO.
+            ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+            ECHO %COLOR_IRONMINER%Unable to leave the %COLOR_GOLDMINER%Source Folder%COLOR_RESET%%COLOR_IRONMINER%.%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%Folder Deletion%COLOR_RESET% %COLOR_IRONMINER%has been cancelled%COLOR_GOLDMINER%.%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+            GOTO :RAR_FINISH
+        )
+        IF /I "%RAR_PATH%"=="%DEST_FOLDER%" (
+            ECHO.
+            ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%Source%COLOR_RESET% %COLOR_IRONMINER%and%COLOR_RESET% %COLOR_GOLDMINER%Destination Folders%COLOR_RESET% %COLOR_IRONMINER%cannot be identical%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%Folder Deletion%COLOR_RESET% %COLOR_IRONMINER%has been cancelled%COLOR_RESET%%COLOR_GOLDMINER%.%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+            ECHO.
+            GOTO :RAR_FINISH
+        )
+        IF NOT EXIST "%RAR_PATH%\" (
+            ECHO.
+            ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+            ECHO %COLOR_IRONMINER%Source folder%COLOR_RESET% %COLOR_GOLDMINER%was already%COLOR_RESET% %COLOR_GOLDMINER%removed or could not be found%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
+            ECHO %COLOR_SLB_GREEN%"%RAR_PATH_NAME%"%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+            GOTO :RAR_FINISH
+        )
+    RMDIR /S /Q "%RAR_PATH%"
+        IF EXIST "%RAR_PATH%\" (
+            ECHO.
+            ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%NFS%COLOR_RESET% %COLOR_IRONMINER%was%COLOR_RESET% %COLOR_BRIGHTWHITE%unable%COLOR_RESET% %COLOR_IRONMINER%to delete the selected directory%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
+            ECHO %COLOR_DARK_GREEN%"%RAR_PATH_NAME%"%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+            ECHO.
+        ) ELSE (
+            ECHO.
+            ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+            ECHO %COLOR_IRONMINER%The %COLOR_GOLDMINER%selected directory%COLOR_RESET% %COLOR_IRONMINER%was deleted%COLOR_RESET% %COLOR_BRIGHTGREEN%successfully%COLOR_RESET%%COLOR_GOLDMINER%:%COLOR_RESET%
+            ECHO %COLOR_DARK_GREEN%"%RAR_PATH_NAME%"%COLOR_RESET%
+            ECHO %COLOR_GOLDMINER%================================================================%COLOR_RESET%
+            ECHO.
+        )
+:RAR_FINISH
+    ENDLOCAL
     EXIT /B

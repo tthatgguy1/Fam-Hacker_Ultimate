@@ -183,7 +183,7 @@
 
         "%ARIA2%" ^
          --dir="%DOWNLOAD_DIR%" ^
-        --summary-interval=0 ^
+         --summary-interval=0 ^
          --continue=true ^
          --seed-time=0 ^
          --check-integrity=true ^
